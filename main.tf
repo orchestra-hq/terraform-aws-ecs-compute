@@ -1,6 +1,17 @@
-// main.tf
-// This is the primary entrypoint for the Terraform module. 
+data "aws_caller_identity" "current" {}
 
-resource "aws_ecs_cluster" "compute_cluster" {
-  name = "orchestra-compute-cluster"
+locals {
+  integrations = [for k in var.integrations : lower(k)]
+  tags = merge(
+    {
+      Application = "Orchestra Technologies"
+      DeployedBy  = "Terraform"
+    },
+    var.tags,
+  )
+}
+
+resource "random_id" "random_suffix" {
+  # Produces an 8 character hex string.
+  byte_length = 4
 }
