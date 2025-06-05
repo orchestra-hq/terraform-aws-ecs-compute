@@ -94,20 +94,18 @@ variable "orchestra_account_id" {
 
 variable "task_env_vars" {
   description = "Environment variables to set on the ECS task when it runs."
-  type        = list(map(string))
-  default     = []
-  validation {
-    condition     = alltrue([for env in var.task_env_vars : length(env) == 2 && contains(keys(env), "name") && contains(keys(env), "value")])
-    error_message = "Each environment variable must be of the form { name = string, value = string }."
-  }
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
 }
 
 variable "task_secrets" {
-  description = "Secrets to set on the ECS task when it runs. This will inject sensitive data into your containers as environment variables."
-  type        = list(map(string))
-  default     = []
-  validation {
-    condition     = alltrue([for secret in var.task_secrets : length(secret) == 2 && contains(keys(secret), "name") && contains(keys(secret), "valueFrom")])
-    error_message = "Each secret must be of the form { name = string, valueFrom = string }."
-  }
+  description = "Secrets to set on the ECS task when it runs. This will inject sensitive data into your containers as environment variables. The full ARNs of the secrets must be provided for this module."
+  type = list(object({
+    name      = string
+    valueFrom = string
+  }))
+  default = []
 }
