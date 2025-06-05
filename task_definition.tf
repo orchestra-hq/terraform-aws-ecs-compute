@@ -39,8 +39,8 @@ resource "aws_ecs_task_definition" "task_definition" {
       image       = "${local.ecr_account_mapping[var.orchestra_aws_account_id]}.dkr.ecr.${var.region}.amazonaws.com/${each.value.image}:${each.value.python_version}_PIP-${var.image_tags[each.value.integration]}"
       cpu         = each.value.cpu
       memory      = each.value.memory
-      environment = [],
-      secrets     = [],
+      environment = var.task_env_vars,
+      secrets     = var.task_secrets,
       logConfiguration = {
         logDriver = "awslogs"
         options = {
