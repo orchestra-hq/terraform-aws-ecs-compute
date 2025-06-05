@@ -7,5 +7,5 @@ module "ecs-compute" {
   tags = {
     Owner = "Awesome Team"
   }
-  orchestra_aws_account_id = "4a6a45ca-5549-4c53-bca4-43a76e1bab2c"
+  orchestra_account_id = "4a6a45ca-5549-4c53-bca4-43a76e1bab2c"
 }
