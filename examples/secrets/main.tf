@@ -4,7 +4,7 @@ module "ecs-compute" {
 
   name_prefix          = "awesome-compute"
   region               = "eu-west-2"
-  integrations         = ["dbt-core", "python"]
+  integrations         = ["dbt_core", "python"]
   orchestra_account_id = "4a6a45ca-5549-4c53-bca4-43a76e1bab2c"
 
   task_secrets = [
