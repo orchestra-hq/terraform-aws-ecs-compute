@@ -27,3 +27,8 @@ output "secret_store_bucket_id" {
   value       = aws_s3_bucket.secret_store.id
   description = "The name of the S3 bucket used to temporarily store secrets used during a compute task."
 }
+
+output "integration_task_role_arns" {
+  value       = aws_iam_role.ecs_compute_task_roles[*].arn
+  description = "The ARNs of the IAM roles created for each integration compute task."
+}
