@@ -32,3 +32,8 @@ output "integration_task_role_names" {
   value       = { for k, v in aws_iam_role.ecs_compute_task_roles : k => v.name }
   description = "The names of the IAM roles created for each integration compute task."
 }
+
+output "integration_task_role_arns" {
+  value       = { for k, v in aws_iam_role.ecs_compute_task_roles : k => v.arn }
+  description = "The ARNs of the IAM roles created for each integration compute task."
+}

@@ -81,5 +81,6 @@ No modules.
 | <a name="output_assumed_role_name"></a> [assumed_role_name](#output_assumed_role_name)                               | The name of the IAM role assumed by Orchestra to perform compute operations.            |
 | <a name="output_compute_cluster_arn"></a> [compute_cluster_arn](#output_compute_cluster_arn)                         | The ARN of the ECS cluster created by this module.                                      |
 | <a name="output_compute_cluster_name"></a> [compute_cluster_name](#output_compute_cluster_name)                      | The name of the ECS cluster created by this module.                                     |
+| <a name="output_integration_task_role_arns"></a> [integration_task_role_arns](#output_integration_task_role_arns)    | The ARNs of the IAM roles created for each integration compute task.                    |
 | <a name="output_integration_task_role_names"></a> [integration_task_role_names](#output_integration_task_role_names) | The names of the IAM roles created for each integration compute task.                   |
 | <a name="output_secret_store_bucket_id"></a> [secret_store_bucket_id](#output_secret_store_bucket_id)                | The name of the S3 bucket used to temporarily store secrets used during a compute task. |
