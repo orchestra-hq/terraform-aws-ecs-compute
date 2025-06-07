@@ -30,3 +30,10 @@ resource "aws_kms_alias" "orchestra_key" {
   name          = "alias/integration_${upper(each.value)}"
   target_key_id = aws_kms_key.orchestra_key.key_id
 }
+
+resource "aws_kms_alias" "orchestra_key_alias" {
+  for_each = toset(local.integrations)
+
+  name          = "alias/${var.name_prefix}_integration_${upper(each.value)}_${random_id.random_suffix.hex}"
+  target_key_id = aws_kms_key.orchestra_key.key_id
+}
