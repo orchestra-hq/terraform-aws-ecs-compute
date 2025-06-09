@@ -10,6 +10,11 @@ variable "name_prefix" {
     condition     = length(var.name_prefix) >= 5
     error_message = "The name prefix must be at least 5 characters."
   }
+
+  validation {
+    condition     = can(regex("^[a-z0-9-]+$", var.name_prefix))
+    error_message = "The name prefix must only contain lowercase letters, numbers, and hyphens (-)."
+  }
 }
 
 variable "orchestra_aws_account_id" {
