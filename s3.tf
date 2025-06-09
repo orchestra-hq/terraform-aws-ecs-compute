@@ -1,6 +1,7 @@
 resource "aws_s3_bucket" "secret_store" {
-  bucket = "${var.name_prefix}-orchestra-secrets-${random_id.random_suffix.hex}"
-  tags   = local.tags
+  bucket        = "${var.name_prefix}-orchestra-secrets-${random_id.random_suffix.hex}"
+  force_destroy = true
+  tags          = local.tags
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "secret_store_lifecycle_config" {
@@ -25,8 +26,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "secret_store_lifecycle_config"
 }
 
 resource "aws_s3_bucket" "artifact_store" {
-  bucket = "${var.name_prefix}-orchestra-artifacts-${random_id.random_suffix.hex}"
-  tags   = local.tags
+  bucket        = "${var.name_prefix}-orchestra-artifacts-${random_id.random_suffix.hex}"
+  force_destroy = true
+  tags          = local.tags
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "artifact_store_lifecycle_config" {
