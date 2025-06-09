@@ -82,7 +82,7 @@ data "aws_iam_policy_document" "role_assumed_from_orchestra_policy_doc" {
       "ecs:RunTask",
       "ecs:TagResource"
     ]
-    resources = aws_ecs_task_definition.task_definition[*].arn
+    resources = [for arn in values(aws_ecs_task_definition.task_definition)[*].arn : replace(arn, "/:\\d+$/", ":*")]
   }
 
   statement {
