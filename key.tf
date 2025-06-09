@@ -24,13 +24,6 @@ resource "aws_kms_key" "orchestra_key" {
   tags = local.tags
 }
 
-resource "aws_kms_alias" "orchestra_key" {
-  for_each = toset(local.integrations)
-
-  name          = "alias/integration_${upper(each.value)}"
-  target_key_id = aws_kms_key.orchestra_key.key_id
-}
-
 resource "aws_kms_alias" "orchestra_key_alias" {
   for_each = toset(local.integrations)
 
