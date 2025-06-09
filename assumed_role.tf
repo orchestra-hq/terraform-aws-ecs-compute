@@ -116,6 +116,17 @@ data "aws_iam_policy_document" "role_assumed_from_orchestra_policy_doc" {
       aws_ecs_cluster.ecs_compute_cluster.arn,
     ]
   }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeSubnets"
+    ]
+    resources = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_policy" "role_assumed_from_orchestra_policy" {
