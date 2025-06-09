@@ -1,11 +1,3 @@
-locals {
-  task_definitions = flatten([
-    for integration in local.integrations : [
-      "arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task-definition/${integration}_*",
-    ]
-  ])
-}
-
 resource "aws_iam_role" "role_assumed_from_orchestra" {
   name        = "${var.name_prefix}-orchestra-compute-${random_id.random_suffix.hex}"
   description = "IAM role assumed by Orchestra to for configuring compute operations."
@@ -90,7 +82,7 @@ data "aws_iam_policy_document" "role_assumed_from_orchestra_policy_doc" {
       "ecs:RunTask",
       "ecs:TagResource"
     ]
-    resources = local.task_definitions
+    resources = aws_ecs_task_definition.task_definition[*].arn
   }
 
   statement {
