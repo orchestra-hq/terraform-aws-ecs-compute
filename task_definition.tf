@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "task_definition_old" {
 resource "aws_ecs_task_definition" "task_definition" {
   for_each = { for task in local.task_defs : "${task.integration}_${task.python_version}" => task }
 
-  family                   = "${var.name_prefix}_${each.key}_${random_id.random_suffix.hex}_PIP"
+  family                   = "${var.name_prefix}_${each.key}_PIP_${random_id.random_suffix.hex}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = each.value.cpu
