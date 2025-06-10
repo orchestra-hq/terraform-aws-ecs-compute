@@ -1,6 +1,5 @@
 module "ecs-compute" {
-  source  = "orchestra-hq/ecs-compute/aws"
-  version = "0.0.3"
+  source = "orchestra-hq/ecs-compute/aws"
 
   name_prefix          = "awesome-compute"
   region               = "eu-west-2"
