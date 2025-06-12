@@ -7,7 +7,7 @@ variable "name_prefix" {
 variable "region" {
   description = "AWS region to deploy resources"
   type        = string
-  default     = "eu-west-2"
+  default     = "eu-west-1"
 }
 
 variable "vpc_cidr" {
