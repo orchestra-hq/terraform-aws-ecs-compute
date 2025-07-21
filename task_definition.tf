@@ -4,20 +4,24 @@ locals {
     "064157540096" : "195275647980",
     "383742555833" : "850995545977",
   }
-  python_versions = ["3_12", "3_11"]
+  python_versions  = ["3_12", "3_11"]
+  package_managers = ["PIP", "POETRY", "UV"]
   ecr_image_names = {
     "dbt_core" = "orchestra/dbt-core"
     "python"   = "orchestra/python"
   }
   task_defs = flatten([
     for integration in local.integrations : [
-      for python_version in local.python_versions : {
-        integration    = integration
-        python_version = python_version
-        cpu            = var.compute_resources[integration].cpu
-        memory         = var.compute_resources[integration].memory
-        image          = local.ecr_image_names[integration]
-      }
+      for python_version in local.python_versions : [
+        for package_manager in local.package_managers : {
+          integration     = integration
+          python_version  = python_version
+          package_manager = package_manager
+          cpu             = var.compute_resources[integration].cpu
+          memory          = var.compute_resources[integration].memory
+          image           = local.ecr_image_names[integration]
+        }
+      ]
     ]
   ])
 }
@@ -25,7 +29,7 @@ locals {
 resource "aws_ecs_task_definition" "task_definition" {
   for_each = { for task in local.task_defs : "${task.integration}_${task.python_version}" => task }
 
-  family                   = "${var.name_prefix}_${each.key}_PIP_${random_id.random_suffix.hex}"
+  family                   = "${var.name_prefix}_${each.key}_${each.value.package_manager}_${random_id.random_suffix.hex}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = each.value.cpu
@@ -36,7 +40,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name        = each.value.integration
-      image       = "${local.ecr_account_mapping[var.orchestra_aws_account_id]}.dkr.ecr.${var.region}.amazonaws.com/${each.value.image}:${each.value.python_version}_PIP-${var.image_tags[each.value.integration]}"
+      image       = "${local.ecr_account_mapping[var.orchestra_aws_account_id]}.dkr.ecr.${var.region}.amazonaws.com/${each.value.image}:${each.value.python_version}_${each.value.package_manager}-${var.image_tags[each.value.integration]}"
       cpu         = each.value.cpu
       memory      = each.value.memory
       environment = var.task_env_vars,
