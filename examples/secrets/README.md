@@ -10,12 +10,8 @@ The module will create a suitable IAM policy in order for the ECS execution role
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [
-        "kms:Decrypt"
-      ],
-      "Resource": [
-        "arn:aws:kms:region:aws_account_id:key/key_id"
-      ]
+      "Action": ["kms:Decrypt"],
+      "Resource": ["arn:aws:kms:region:aws_account_id:key/key_id"]
     }
   ]
 }
