@@ -8,7 +8,7 @@ Deploy an AWS ECS cluster (with relevant resources) for a hybrid compute option 
 
 | Name                                                                     | Version   |
 | ------------------------------------------------------------------------ | --------- |
-| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | ~> 1.12.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement_terraform) | >= 1.12.1 |
 | <a name="requirement_aws"></a> [aws](#requirement_aws)                   | ~> 6.0.0  |
 | <a name="requirement_random"></a> [random](#requirement_random)          | ~> 3.7.2  |
 
