@@ -67,4 +67,8 @@ resource "aws_ecs_task_definition" "task_definition" {
       "NewLogGroup" = "true"
     }
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
