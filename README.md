@@ -4,6 +4,12 @@
 
 Deploy an AWS ECS cluster (with relevant resources) for a hybrid compute option with Orchestra.
 
+## Contributing
+
+When making contributions, ensure that pre-commit hooks are enabled, by running `pre-commit run -a`.
+
+<!-- BEGIN_TF_DOCS -->
+
 ## Requirements
 
 | Name                                                                     | Version   |
@@ -84,3 +90,5 @@ No modules.
 | <a name="output_integration_task_role_arns"></a> [integration_task_role_arns](#output_integration_task_role_arns)    | The ARNs of the IAM roles created for each integration compute task.                    |
 | <a name="output_integration_task_role_names"></a> [integration_task_role_names](#output_integration_task_role_names) | The names of the IAM roles created for each integration compute task.                   |
 | <a name="output_secret_store_bucket_id"></a> [secret_store_bucket_id](#output_secret_store_bucket_id)                | The name of the S3 bucket used to temporarily store secrets used during a compute task. |
+
+<!-- END_TF_DOCS -->
