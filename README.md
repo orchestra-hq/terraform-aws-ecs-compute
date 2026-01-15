@@ -8,12 +8,16 @@ Deploy an AWS ECS cluster (with relevant resources) for a hybrid compute option 
 
 When making contributions, ensure that pre-commit hooks are enabled, by running `pre-commit run -a`.
 
+## AWS IAM permissions
+
+The minimal AWS permissions required to use this Terraform module are defined in `PERMISSIONS.md`.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.12.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.12 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.0.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | ~> 3.7.2 |
 
@@ -65,8 +69,8 @@ No modules.
 | <a name="input_compute_resources"></a> [compute\_resources](#input\_compute\_resources) | A map representing the compute resources (CPU and memory) to use for each integration. | <pre>map(object({<br/>    cpu    = number<br/>    memory = number<br/>  }))</pre> | <pre>{<br/>  "dbt_core": {<br/>    "cpu": 4096,<br/>    "memory": 8192<br/>  },<br/>  "python": {<br/>    "cpu": 2048,<br/>    "memory": 4096<br/>  }<br/>}</pre> | no |
 | <a name="input_enable_container_insights"></a> [enable\_container\_insights](#input\_enable\_container\_insights) | Whether to enable Container Insights for the ECS cluster. Note: this will incur additional AWS charges. | `bool` | `false` | no |
 | <a name="input_enhanced_container_insights"></a> [enhanced\_container\_insights](#input\_enhanced\_container\_insights) | Whether to use Enhanced Container Insights for the ECS cluster. Requires enable\_container\_insights to be true. Note: this will incur additional AWS charges. | `bool` | `false` | no |
-| <a name="input_image_tags"></a> [image\_tags](#input\_image\_tags) | A map representing the ECR image tags to use for each integration. | `map(string)` | <pre>{<br/>  "dbt_core": "2025.10.28-0",<br/>  "python": "2025.10.28-0"<br/>}</pre> | no |
-| <a name="input_integrations"></a> [integrations](#input\_integrations) | The integrations to deploy. | `list(string)` | n/a | yes |
+| <a name="input_image_tags"></a> [image\_tags](#input\_image\_tags) | A map representing the ECR image tags to use for each integration. | `map(string)` | <pre>{<br/>  "dbt_core": "2026.1.14-1",<br/>  "python": "2026.1.7-1"<br/>}</pre> | no |
+| <a name="input_integrations"></a> [integrations](#input\_integrations) | n/a | `list` | <pre>[<br/>  "python",<br/>  "dbt_core"<br/>]</pre> | no |
 | <a name="input_key_rotation_period_days"></a> [key\_rotation\_period\_days](#input\_key\_rotation\_period\_days) | The number of days to rotate the KMS key used to encrypt secrets. | `number` | `365` | no |
 | <a name="input_log_retention_days"></a> [log\_retention\_days](#input\_log\_retention\_days) | The number of days to retain CloudWatch logs produced by compute tasks. | `number` | `90` | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | The name prefix to use for the resources created by this module. | `string` | n/a | yes |

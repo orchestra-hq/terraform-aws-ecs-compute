@@ -53,8 +53,12 @@ variable "enhanced_container_insights" {
 }
 
 variable "integrations" {
-  description = "The integrations to deploy."
-  type        = list(string)
+  default = ["python", "dbt_core"]
+
+  validation {
+    condition     = alltrue([for integration in var.integrations : contains(["dbt_core", "python"], integration)])
+    error_message = "The integrations must be one of 'dbt_core' or 'python'."
+  }
 }
 
 variable "image_tags" {
@@ -62,7 +66,7 @@ variable "image_tags" {
   type        = map(string)
   default = {
     python   = "2026.1.7-1",
-    dbt_core = "2026.1.7-1"
+    dbt_core = "2026.1.14-1"
   }
   validation {
     condition     = alltrue([for k in var.integrations : contains(keys(var.image_tags), lower(k))])
