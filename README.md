@@ -8,6 +8,10 @@ Deploy an AWS ECS cluster (with relevant resources) for a hybrid compute option 
 
 When making contributions, ensure that pre-commit hooks are enabled, by running `pre-commit run -a`.
 
+## AWS IAM permissions
+
+The minimal AWS permissions required to use this Terraform module are defined in `PERMISSIONS.md`.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
