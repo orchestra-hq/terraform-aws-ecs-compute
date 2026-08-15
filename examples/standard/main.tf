@@ -3,7 +3,7 @@ module "ecs-compute" {
 
   name_prefix  = "awesome-compute"
   region       = "eu-west-2"
-  integrations = ["dbt_core", "python"]
+  integrations = ["bash", "dbt_core", "python"]
   tags = {
     Owner = "Awesome Team"
   }

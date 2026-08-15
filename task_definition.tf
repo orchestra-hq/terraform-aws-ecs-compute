@@ -6,28 +6,41 @@ locals {
   }
   python_versions  = ["3_12", "3_11"]
   package_managers = ["PIP", "POETRY", "UV"]
+  python_variants = flatten([
+    for python_version in local.python_versions : [
+      for package_manager in local.package_managers : "${python_version}_${package_manager}"
+    ]
+  ])
+
+  # The variants each integration is built for. A variant names both the task
+  # definition (<prefix>_<integration>_<variant>_<suffix>) and the image tag
+  # (<variant>-<image_tag>). Integrations with no version or package manager
+  # axes have a single "default" variant.
+  integration_variants = {
+    "bash"     = ["default"]
+    "dbt_core" = local.python_variants
+    "python"   = local.python_variants
+  }
   ecr_image_names = {
+    "bash"     = "orchestra/bash"
     "dbt_core" = "orchestra/dbt-core"
     "python"   = "orchestra/python"
   }
   task_defs = flatten([
     for integration in local.integrations : [
-      for python_version in local.python_versions : [
-        for package_manager in local.package_managers : {
-          integration     = integration
-          python_version  = python_version
-          package_manager = package_manager
-          cpu             = var.compute_resources[integration].cpu
-          memory          = var.compute_resources[integration].memory
-          image           = local.ecr_image_names[integration]
-        }
-      ]
+      for variant in local.integration_variants[integration] : {
+        integration = integration
+        variant     = variant
+        cpu         = var.compute_resources[integration].cpu
+        memory      = var.compute_resources[integration].memory
+        image       = local.ecr_image_names[integration]
+      }
     ]
   ])
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  for_each = { for task in local.task_defs : "${task.integration}_${task.python_version}_${task.package_manager}" => task }
+  for_each = { for task in local.task_defs : "${task.integration}_${task.variant}" => task }
 
   family                   = "${var.name_prefix}_${each.key}_${random_id.random_suffix.hex}"
   network_mode             = "awsvpc"
@@ -40,7 +53,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   container_definitions = jsonencode([
     {
       name        = each.value.integration
-      image       = "${local.ecr_account_mapping[var.orchestra_aws_account_id]}.dkr.ecr.${var.region}.amazonaws.com/${each.value.image}:${each.value.python_version}_${each.value.package_manager}-${var.image_tags[each.value.integration]}"
+      image       = "${local.ecr_account_mapping[var.orchestra_aws_account_id]}.dkr.ecr.${var.region}.amazonaws.com/${each.value.image}:${each.value.variant}-${var.image_tags[each.value.integration]}"
       cpu         = each.value.cpu
       memory      = each.value.memory
       environment = var.task_env_vars,

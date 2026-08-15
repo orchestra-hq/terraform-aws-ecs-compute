@@ -53,11 +53,13 @@ variable "enhanced_container_insights" {
 }
 
 variable "integrations" {
-  default = ["python", "dbt_core"]
+  description = "The integrations to deploy. One of 'bash', 'dbt_core' or 'python'."
+  type        = list(string)
+  default     = ["python", "dbt_core"]
 
   validation {
-    condition     = alltrue([for integration in var.integrations : contains(["dbt_core", "python"], integration)])
-    error_message = "The integrations must be one of 'dbt_core' or 'python'."
+    condition     = alltrue([for integration in var.integrations : contains(["bash", "dbt_core", "python"], integration)])
+    error_message = "The integrations must be one of 'bash', 'dbt_core' or 'python'."
   }
 }
 
@@ -66,7 +68,8 @@ variable "image_tags" {
   type        = map(string)
   default = {
     python   = "2026.04.21-1",
-    dbt_core = "2026.04.27-0"
+    dbt_core = "2026.04.27-0",
+    bash     = "2026.04.27-0"
   }
   validation {
     condition     = alltrue([for k in var.integrations : contains(keys(var.image_tags), lower(k))])
@@ -89,6 +92,7 @@ variable "compute_resources" {
   default = {
     python   = { cpu = 2048, memory = 4096 }
     dbt_core = { cpu = 4096, memory = 8192 }
+    bash     = { cpu = 2048, memory = 4096 }
   }
   validation {
     condition     = alltrue([for k in var.integrations : contains(keys(var.compute_resources), lower(k))])
