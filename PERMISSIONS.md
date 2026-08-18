@@ -38,6 +38,7 @@ The minimal AWS permissions required to use this Terraform module are:
       ],
       "Resource": [
         "arn:aws:ecs:*:*:cluster/*-orchestra-compute-cluster-*",
+        "arn:aws:ecs:*:*:task-definition/*bash*:*",
         "arn:aws:ecs:*:*:task-definition/*dbt_core*:*",
         "arn:aws:ecs:*:*:task-definition/*python*:*",
         "arn:aws:ecs:*:*:task/*-orchestra-compute-cluster-*/*"
