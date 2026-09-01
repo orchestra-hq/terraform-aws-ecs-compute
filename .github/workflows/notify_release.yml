@@ -5,15 +5,16 @@ on:
     types: [published]
 permissions:
   contents: read
+env:
+  ORCHESTRA_MODULE_RELEASE_PIPELINE_ID: 73f452de-e504-452e-b1e1-b003e313c923
 jobs:
   notify:
     name: Trigger client notification
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404-arm
     steps:
       - name: Trigger Orchestra notification pipeline
         env:
           ORCHESTRA_API_TOKEN: ${{ secrets.ORCHESTRA_API_TOKEN }}
-          PIPELINE_ID: ${{ vars.ORCHESTRA_MODULE_RELEASE_PIPELINE_ID }}
           MODULE_VERSION: ${{ github.event.release.tag_name }}
           REPOSITORY: ${{ github.repository }}
         run: |
@@ -22,4 +23,4 @@ jobs:
             -H "Authorization: Bearer $ORCHESTRA_API_TOKEN" \
             -d "$(jq -n --arg repository "$REPOSITORY" --arg module_version "$MODULE_VERSION" \
               '{runInputs: {repository: $repository, module_version: $module_version}}')" \
-            "https://app.getorchestra.io/api/engine/public/pipelines/${PIPELINE_ID}/start"
+            "https://app.getorchestra.io/api/engine/public/pipelines/${ORCHESTRA_MODULE_RELEASE_PIPELINE_ID}/start"
