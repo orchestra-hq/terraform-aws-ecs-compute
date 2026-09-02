@@ -11,16 +11,11 @@ jobs:
   notify:
     name: Trigger client notification
     runs-on: blacksmith-2vcpu-ubuntu-2404-arm
+    timeout-minutes: 15
     steps:
       - name: Trigger Orchestra notification pipeline
-        env:
-          ORCHESTRA_API_TOKEN: ${{ secrets.ORCHESTRA_API_TOKEN }}
-          MODULE_VERSION: ${{ github.event.release.tag_name }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          curl -sS --fail-with-body -X POST \
-            -H "Content-Type: application/json" \
-            -H "Authorization: Bearer $ORCHESTRA_API_TOKEN" \
-            -d "$(jq -n --arg repository "$REPOSITORY" --arg module_version "$MODULE_VERSION" \
-              '{runInputs: {repository: $repository, module_version: $module_version}}')" \
-            "https://app.getorchestra.io/api/engine/public/pipelines/${ORCHESTRA_MODULE_RELEASE_PIPELINE_ID}/start"
+        uses: orchestra-hq/run-pipeline@v.1.6.0
+        with:
+          api_key: ${{ secrets.ORCHESTRA_API_TOKEN }}
+          pipeline_id: ${{ env.ORCHESTRA_MODULE_RELEASE_PIPELINE_ID }}
+          run_inputs: '{"repository": ${{ toJSON(github.repository) }}, "module_version": ${{ toJSON(github.event.release.tag_name) }}}'
