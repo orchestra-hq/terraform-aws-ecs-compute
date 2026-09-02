@@ -1,0 +1,21 @@
+name: Notify clients of a release
+run-name: 📣 Notify clients of ${{ github.event.release.tag_name }}
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+env:
+  ORCHESTRA_MODULE_RELEASE_PIPELINE_ID: 73f452de-e504-452e-b1e1-b003e313c923
+jobs:
+  notify:
+    name: Trigger client notification
+    runs-on: blacksmith-2vcpu-ubuntu-2404-arm
+    timeout-minutes: 15
+    steps:
+      - name: Trigger Orchestra notification pipeline
+        uses: orchestra-hq/run-pipeline@v.1.6.0
+        with:
+          api_key: ${{ secrets.ORCHESTRA_API_TOKEN }}
+          pipeline_id: ${{ env.ORCHESTRA_MODULE_RELEASE_PIPELINE_ID }}
+          run_inputs: '{"repository": ${{ toJSON(github.repository) }}, "module_version": ${{ toJSON(github.event.release.tag_name) }}}'
