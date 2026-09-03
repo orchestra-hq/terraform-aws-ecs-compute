@@ -6,7 +6,7 @@ on:
 permissions:
   contents: read
 env:
-  ORCHESTRA_MODULE_RELEASE_PIPELINE_ID: 73f452de-e504-452e-b1e1-b003e313c923
+  ORCHESTRA_MODULE_RELEASE_PIPELINE_ID: 35a8e336-d557-4e36-aed5-3e3d42f1a411
 jobs:
   notify:
     name: Trigger client notification
@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Trigger Orchestra notification pipeline
-        uses: orchestra-hq/run-pipeline@v.1.6.0
+        uses: orchestra-hq/run-pipeline@v1
         with:
           api_key: ${{ secrets.ORCHESTRA_API_TOKEN }}
           pipeline_id: ${{ env.ORCHESTRA_MODULE_RELEASE_PIPELINE_ID }}
