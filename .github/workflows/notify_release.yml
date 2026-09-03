@@ -18,4 +18,5 @@ jobs:
         with:
           api_key: ${{ secrets.ORCHESTRA_API_TOKEN }}
           pipeline_id: ${{ env.ORCHESTRA_MODULE_RELEASE_PIPELINE_ID }}
+          branch: main
           run_inputs: '{"repository": ${{ toJSON(github.repository) }}, "module_version": ${{ toJSON(github.event.release.tag_name) }}}'
