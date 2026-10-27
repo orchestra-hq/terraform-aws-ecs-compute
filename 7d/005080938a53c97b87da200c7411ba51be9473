@@ -1,0 +1,19 @@
+task_definition.tf
+  s_df50d424cbbb47::t_ebf114e2cd3717 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7d005080938a53c97b87da200c7411ba51be9473",
+  "prompts": {},
+  "sessions": {
+    "s_df50d424cbbb47": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "s_df50d424cbbb47",
+        "model": "unknown"
+      },
+      "human_author": "Will Davies <42768478+willdavies0@users.noreply.github.com>"
+    }
+  }
+}
