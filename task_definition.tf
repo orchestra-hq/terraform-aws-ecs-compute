@@ -4,7 +4,7 @@ locals {
     "064157540096" : "195275647980",
     "383742555833" : "850995545977",
   }
-  python_versions  = ["3_12", "3_11"]
+  python_versions  = ["3_14", "3_13", "3_12", "3_11"]
   package_managers = ["PIP", "POETRY", "UV"]
   ecr_image_names = {
     "dbt_core" = "orchestra/dbt-core"
