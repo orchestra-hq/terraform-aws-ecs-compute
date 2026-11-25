@@ -65,8 +65,8 @@ variable "image_tags" {
   description = "A map representing the ECR image tags to use for each integration."
   type        = map(string)
   default = {
-    python   = "2026.10.27-0",
-    dbt_core = "2026.10.27-0"
+    python   = "2026.11.24-3",
+    dbt_core = "2026.11.24-3"
   }
   validation {
     condition     = alltrue([for k in var.integrations : contains(keys(var.image_tags), lower(k))])
